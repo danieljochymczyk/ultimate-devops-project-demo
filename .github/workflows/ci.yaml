@@ -21,7 +21,10 @@ jobs:
           go-version: 1.22
 
       - name: Build
-        run: hgo build -o product-catalog-service src/product-catalog-service/main.go
+        run: |
+          cd src/product-catalog
+          go mod download
+          go build -o product-catalog-service
         
       - name: Run Tests
         run: go test src/product-catalog/...
@@ -33,10 +36,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run golandci-Lint
+      - name: Run golangci-lint
         run: |
           curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.52.2
-          golangci-lint run ./src/product-catalog/...
+          export PATH="$(go env GOPATH)/bin:$PATH"
+            golangci-lint run ./src/product-catalog/...
 
   docker:
     runs-on: ubuntu-Latest
