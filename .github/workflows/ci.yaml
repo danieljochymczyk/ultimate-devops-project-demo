@@ -21,7 +21,7 @@ jobs:
           go-version: 1.22
 
       - name: Build
-        run: hgo build -o product-catalog-service src/product-catalog-service/main.go
+        run: go build -o product-catalog-service src/product-catalog-service/main.go
         
       - name: Run Tests
         run: go test src/product-catalog/...
